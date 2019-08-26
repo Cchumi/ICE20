@@ -1,0 +1,205 @@
+PODS:
+  - AppCenter/Analytics (1.13.2):
+    - AppCenter/Core
+  - AppCenter/Core (1.13.2)
+  - AppCenter/Crashes (1.13.2):
+    - AppCenter/Core
+  - AppCenterReactNativeShared (1.12.2):
+    - AppCenter/Core (= 1.13.2)
+  - AWSCore (2.6.7)
+  - AWSDynamoDB (2.6.7):
+    - AWSCore (= 2.6.7)
+  - boost-for-react-native (1.63.0)
+  - DoubleConversion (1.1.6)
+  - Folly (2018.10.22.00):
+    - boost-for-react-native
+    - DoubleConversion
+    - glog
+  - glog (0.3.5)
+  - GoogleToolboxForMac/Defines (2.1.0)
+  - GoogleToolboxForMac/Logger (2.1.0):
+    - GoogleToolboxForMac/Defines (= 2.1.0)
+  - GTMSessionFetcher/Core (1.1.6)
+  - GVRAudioSDK (1.120.0)
+  - GVRSDK (1.120.0):
+    - GoogleToolboxForMac/Logger (= 2.1.0)
+    - GTMSessionFetcher/Core (= 1.1.6)
+  - RCTRestart (0.0.12):
+    - React
+  - React (0.59.10):
+    - React/Core (= 0.59.10)
+  - react-native-torch (1.1.5):
+    - React
+  - react-native-video (4.4.4):
+    - React
+    - react-native-video/Video (= 4.4.4)
+  - react-native-video/Video (4.4.4):
+    - React
+  - React/Core (0.59.10):
+    - yoga (= 0.59.10.React)
+  - React/CxxBridge (0.59.10):
+    - Folly (= 2018.10.22.00)
+    - React/Core
+    - React/cxxreact
+    - React/jsiexecutor
+  - React/cxxreact (0.59.10):
+    - boost-for-react-native (= 1.63.0)
+    - DoubleConversion
+    - Folly (= 2018.10.22.00)
+    - glog
+    - React/jsinspector
+  - React/DevSupport (0.59.10):
+    - React/Core
+    - React/RCTWebSocket
+  - React/fishhook (0.59.10)
+  - React/jsi (0.59.10):
+    - DoubleConversion
+    - Folly (= 2018.10.22.00)
+    - glog
+  - React/jsiexecutor (0.59.10):
+    - DoubleConversion
+    - Folly (= 2018.10.22.00)
+    - glog
+    - React/cxxreact
+    - React/jsi
+  - React/jsinspector (0.59.10)
+  - React/RCTActionSheet (0.59.10):
+    - React/Core
+  - React/RCTAnimation (0.59.10):
+    - React/Core
+  - React/RCTBlob (0.59.10):
+    - React/Core
+  - React/RCTCameraRoll (0.59.10):
+    - React/Core
+    - React/RCTImage
+  - React/RCTGeolocation (0.59.10):
+    - React/Core
+  - React/RCTImage (0.59.10):
+    - React/Core
+    - React/RCTNetwork
+  - React/RCTLinkingIOS (0.59.10):
+    - React/Core
+  - React/RCTNetwork (0.59.10):
+    - React/Core
+  - React/RCTSettings (0.59.10):
+    - React/Core
+  - React/RCTText (0.59.10):
+    - React/Core
+  - React/RCTVibration (0.59.10):
+    - React/Core
+  - React/RCTWebSocket (0.59.10):
+    - React/Core
+    - React/fishhook
+    - React/RCTBlob
+  - RNScreens (1.0.0-alpha.23):
+    - React
+  - RNShare (1.2.1):
+    - React
+  - RNVectorIcons (6.6.0):
+    - React
+  - ViroKit (1.0):
+    - AWSDynamoDB (= 2.6.7)
+    - GVRAudioSDK (= 1.120.0)
+    - GVRSDK (= 1.120.0)
+  - ViroReact (1.0)
+  - yoga (0.59.10.React)
+
+DEPENDENCIES:
+  - AppCenter/Analytics (~> 1.13.0)
+  - AppCenter/Crashes (~> 1.13.0)
+  - AppCenterReactNativeShared (~> 1.12.0)
+  - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
+  - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - RCTRestart (from `../node_modules/react-native-restart/ios`)
+  - react-native-torch (from `../node_modules/react-native-torch`)
+  - react-native-video (from `../node_modules/react-native-video/react-native-video.podspec`)
+  - React/Core (from `../node_modules/react-native`)
+  - React/CxxBridge (from `../node_modules/react-native`)
+  - React/DevSupport (from `../node_modules/react-native`)
+  - React/RCTActionSheet (from `../node_modules/react-native`)
+  - React/RCTAnimation (from `../node_modules/react-native`)
+  - React/RCTBlob (from `../node_modules/react-native`)
+  - React/RCTCameraRoll (from `../node_modules/react-native`)
+  - React/RCTGeolocation (from `../node_modules/react-native`)
+  - React/RCTImage (from `../node_modules/react-native`)
+  - React/RCTLinkingIOS (from `../node_modules/react-native`)
+  - React/RCTNetwork (from `../node_modules/react-native`)
+  - React/RCTSettings (from `../node_modules/react-native`)
+  - React/RCTText (from `../node_modules/react-native`)
+  - React/RCTVibration (from `../node_modules/react-native`)
+  - React/RCTWebSocket (from `../node_modules/react-native`)
+  - RNScreens (from `../node_modules/react-native-screens`)
+  - RNShare (from `../node_modules/react-native-share`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - ViroKit (from `../node_modules/react-viro/ios/dist/ViroRenderer/`)
+  - ViroReact (from `../node_modules/react-viro/ios/`)
+  - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AppCenter
+    - AppCenterReactNativeShared
+    - AWSCore
+    - AWSDynamoDB
+    - boost-for-react-native
+    - GoogleToolboxForMac
+    - GTMSessionFetcher
+    - GVRAudioSDK
+    - GVRSDK
+
+EXTERNAL SOURCES:
+  DoubleConversion:
+    :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  Folly:
+    :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
+  glog:
+    :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  RCTRestart:
+    :path: "../node_modules/react-native-restart/ios"
+  React:
+    :path: "../node_modules/react-native"
+  react-native-torch:
+    :path: "../node_modules/react-native-torch"
+  react-native-video:
+    :path: "../node_modules/react-native-video/react-native-video.podspec"
+  RNScreens:
+    :path: "../node_modules/react-native-screens"
+  RNShare:
+    :path: "../node_modules/react-native-share"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
+  ViroKit:
+    :path: "../node_modules/react-viro/ios/dist/ViroRenderer/"
+  ViroReact:
+    :path: "../node_modules/react-viro/ios/"
+  yoga:
+    :path: "../node_modules/react-native/ReactCommon/yoga/yoga.podspec"
+
+SPEC CHECKSUMS:
+  AppCenter: bce7fe1098e8e8aeb70aaae1898600534069f549
+  AppCenterReactNativeShared: 6c0750b874f3242c47cb64083e23b835975c6aa2
+  AWSCore: a5ff5fb202342b922eb9036af9ecc3bc28a032eb
+  AWSDynamoDB: ea3631a84c0c4a19ef4cb4ec32d3348d3ae9d47c
+  boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
+  Folly: de497beb10f102453a1afa9edbf8cf8a251890de
+  glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
+  GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
+  GTMSessionFetcher: 6aacd0ab48ddf0c3633ab2642d792abfcad1b08a
+  GVRAudioSDK: 302f0a8f190d855868ea07f246ce4f9b44c392ae
+  GVRSDK: 0cb9d0ce06a84d698e61e3db9509766022dcf815
+  RCTRestart: 3abdd55016c31254b996e0a55cc14cc2544fa3c1
+  React: 36d0768f9e93be2473b37e7fa64f92c1d5341eef
+  react-native-torch: bff9b2c4230e183b8cc74c4f0c4cca70bcf16170
+  react-native-video: 8c49eca5a6087de968a05b340933b10e3b58169a
+  RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
+  RNShare: 48cf88cadf9ca2143cdaa557c1ec7f8808040ffc
+  RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
+  ViroKit: a0c2268a9f6fc661defc37767e92cea2a1947e38
+  ViroReact: 7ec32276dcd1883662b4587eaedfff67f7fc3625
+  yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
+
+PODFILE CHECKSUM: 1d7a7b55e7e7a0f16548222a008e85b426f46b16
+
+COCOAPODS: 1.7.4

@@ -1,0 +1,49 @@
+{
+  "name": "ICE20",
+  "version": "1.0.6",
+  "private": false,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "appcenter": "^1.12.0",
+    "appcenter-analytics": "^1.12.0",
+    "appcenter-cli": "^1.1.11",
+    "appcenter-crashes": "^1.12.0",
+    "asap": "^2.0.6",
+    "axios": "^0.18.0",
+    "jetifier": "^1.6.3",
+    "react": "16.8.3",
+    "react-native": "0.59.10",
+    "react-native-app-intro-slider": "latest",
+    "react-native-code-push": "^5.5.1",
+    "react-native-elements": "^1.1.0",
+    "react-native-gesture-handler": "^1.3.0",
+    "react-native-multibar": "^0.0.10",
+    "react-native-restart": "^0.0.12",
+    "react-native-screens": "^1.0.0-alpha.23",
+    "react-native-share": "^1.2.1",
+    "react-native-torch": "^1.1.5",
+    "react-native-vector-icons": "^6.6.0",
+    "react-native-video": "^4.3.1",
+    "react-native-video-controls": "^2.2.3",
+    "react-navigation": "^3.11.1",
+    "react-redux": "^6.0.1",
+    "react-timer-mixin": "^0.13.4",
+    "react-viro": "^2.14.0",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/runtime": "^7.4.3",
+    "babel-jest": "^24.7.1",
+    "jest": "^24.7.1",
+    "metro-react-native-babel-preset": "^0.53.1",
+    "react-test-renderer": "16.8.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}

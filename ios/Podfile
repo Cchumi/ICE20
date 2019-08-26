@@ -1,0 +1,115 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '9.3'
+
+target 'ICE20' do
+  pod 'AppCenter/Crashes', '~> 1.13.0'
+  pod 'AppCenter/Analytics', '~> 1.13.0'
+  pod 'AppCenterReactNativeShared', '~> 1.12.0'
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+ use_frameworks!
+ rn_path = '../node_modules/react-native'
+
+ pod 'yoga', path: "#{rn_path}/ReactCommon/yoga/yoga.podspec"
+ pod 'React', path: rn_path, subspecs: [
+   'Core',
+   'CxxBridge', # Include this for RN >= 0.47
+   'DevSupport', # Include this to enable In-App Devmenu if RN >= 0.43
+   'RCTActionSheet',
+   'RCTBlob',
+   'RCTAnimation',
+   'RCTGeolocation',
+   'RCTImage',
+   'RCTLinkingIOS',
+   'RCTNetwork',
+   'RCTSettings',
+   'RCTText',
+   'RCTVibration',
+   'RCTWebSocket',
+   'RCTCameraRoll',
+ ]
+ #pod 'React', :path => '../node_modules/react-native'
+ #pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+  # Pods for ICEar
+  #pod 'React', :path => '../node_modules/react-native', :subspecs => [
+  #  'Core',
+  #  'CxxBridge', # Include this for RN >= 0.47
+  #  'DevSupport', # Include this to enable In-App Devmenu if RN >= 0.43
+   # 'RCTActionSheet',
+  #  'RCTAnimation',
+  #  'RCTGeolocation',
+  #  'RCTImage',
+  #  'RCTLinkingIOS',
+    #'RCTNetwork',
+  #  'RCTSettings',
+  #  'RCTText',
+  #  'RCTVibration',
+  #  'RCTWebSocket',
+  #  'RCTCameraRoll',
+    #'BatchedBridge'
+    # Add any other subspecs you want to use in your project
+  #]
+  # Explicitly include Yoga if you are using RN >= 0.42.0
+# Third party deps podspec link
+pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
+pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
+pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+  #pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
+  #pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
+  #pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+  #pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+pod 'react-native-video', :path => '../node_modules/react-native-video/react-native-video.podspec'
+
+  
+  # CodePush plugin dependency
+  #pod 'CodePush', :path => '../node_modules/react-native-code-push'
+  pod 'ViroReact', :path => '../node_modules/react-viro/ios/'
+  pod 'ViroKit', :path => '../node_modules/react-viro/ios/dist/ViroRenderer/'
+  # The following line uses RCTRestart, linking with 
+  # the library and setting the Header Search Paths for you 
+  pod 'RCTRestart', :path => '../node_modules/react-native-restart/ios'
+ # pod 'react-native-video', :path => '../node_modules/react-native-video'
+
+  pod 'react-native-torch', :path => '../node_modules/react-native-torch'
+
+  #pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
+  pod 'RNScreens', :path => '../node_modules/react-native-screens'
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'RNShare', :path => '../node_modules/react-native-share'
+
+  #target 'ICE20Tests' do
+  #  inherit! :search_paths
+    # Pods for testing
+  #end
+
+end
+post_install do |installer|
+  installer.pods_project.build_configurations.each do |config|
+      if config.name == 'Staging'
+          config.build_settings['CONFIGURATION_BUILD_DIR'] = '$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)'
+      end
+  end
+
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+        if config.name == 'Staging'
+            config.build_settings['PODS_CONFIGURATION_BUILD_DIR'] = '${PODS_BUILD_DIR}/Release$(EFFECTIVE_PLATFORM_NAME)'
+        end
+    end
+  end
+end
+
+#target 'ICE20-tvOS' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for ICEar-tvOS
+
+  #target 'ICE20-tvOSTests' do
+   # inherit! :search_paths
+    # Pods for testing
+  #end
+
+#end

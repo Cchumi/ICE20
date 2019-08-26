@@ -1,0 +1,693 @@
+'use strict';
+
+import React, { Component } from 'react';
+
+import {
+  AppRegistry,
+  ActivityIndicator,
+  Text,
+  View,
+  StyleSheet,
+  TouchableHighlight,
+  Image,
+  Alert,
+  Platform,
+  Animated,
+  Dimensions,
+  Easing} from 'react-native';
+
+import {
+  ViroARScene,
+  ViroDirectionalLight,
+  ViroBox,
+  ViroConstants,
+  ViroARTrackingTargets,
+  ViroMaterials,
+  ViroText,
+  ViroImage,
+  ViroFlexView,
+  ViroARImageMarker,
+  ViroARObjectMarker,
+  ViroAmbientLight,
+  ViroARPlane,
+  ViroSpotLight,
+  ViroAnimatedImage,
+  ViroAnimations,
+  ViroNode,
+  Viro3DObject,
+  ViroQuad,
+  ViroSurface,
+  ViroARPlaneSelector
+} from 'react-viro';
+
+import renderIf from '../helpers/renderIf';
+
+
+
+var {
+  width,
+  height
+} = Dimensions.get('window');
+const webUrl = 'http://pierregagliardi.com/reactapp/';
+
+
+export class BusinessCard extends Component {
+  constructor(props) {
+    super(props);
+// bind 'this' to functions
+this._onAnchorFound = this._onAnchorFound.bind(this);
+this._onAnchorRemoved = this._onAnchorRemoved.bind(this);
+this._onAnchorUpdated = this._onAnchorUpdated.bind(this);
+this._onTrackingInit = this._onTrackingInit.bind(this);
+this._loadAllMarkers = this._loadAllMarkers.bind(this);
+this._createAllMarkersTargets = this._createAllMarkersTargets.bind(this);
+this._getQuad = this._getQuad.bind(this);
+this._getTexts = this._getTexts.bind(this);
+this._getVideos = this._getVideos.bind(this);
+this._getImages = this._getImages.bind(this);
+//this._onDisplayDialog = this._onDisplayDialog.bind(this);
+
+    // Set initial state here
+    this.state = {
+      data: [],
+      //dataMarker: this.state.data.markers,
+      trackingInitialized: false,
+      text : "Initializing AR...",
+      top: height,
+      isFetching: false,
+      isTracking: false,
+      initialized: false,
+      runAnimation: false,
+      addImageMarker : true,
+      text: "test",
+      totalItemNumber: 0,
+      loading: false, 
+      isLoading: false,
+      foundAnchor : '',
+    };
+
+    
+  }
+
+componentWillMount() {
+    
+    this.makeRemoteRequest();
+    
+}
+
+
+componentDidMount() {
+
+  /*const a = setTimeout(() => {
+    this.setState({
+      addImageMarker : true,
+    })
+    // do some stuff here
+
+  }, 3000);*/
+  //this._createAllMarkersTargets();
+     //alert(imageMarker)
+     /*setTimeout(()=>{
+      this.setState({
+        addImageMarker : true,
+      })
+    }, 5000);*/
+}
+
+
+
+makeRemoteRequest = () => {
+ 
+ const jsonFile = webUrl + 'ice.json';
+ this.setState({ loading: true, isLoading: true, });
+
+ fetch(jsonFile)
+   .then(res => res.json())
+   .then(res => {
+   ;
+  
+     this.setState({
+
+       isFetching: true,
+
+       data: res.markers,
+
+       totalItemNumber: res.markers.length
+     }, function() { 
+       
+      /*this.state.data.forEach(function(item, i) {
+        alert(i);
+      });*/
+          // In this block you can do something with new state.
+     });
+   })
+   .catch(error => {
+   //alert(error);
+   console.error(error);
+     this.setState({ error, loading: false });
+   });
+}
+
+_createAllMarkersTargets(){
+
+
+  //var ARImageMarkersTargets = [];
+  var imageMarkers = '';
+  var imageMarkersNames  = '';
+  var ARImageMarkersTargets = {};
+  var physicalWidths  = '';
+  if (!this.state.addImageMarker) {
+    return;
+  }
+  var objarray = {};
+  var test = {};
+ //alert(this.state.data);
+ var values = [];
+  //alert(this.state.data.length);
+  for (let x = 0; x < this.state.totalItemNumber; x++){
+    //alert(this.state.data[i].key)
+     // Iterate through your marker data here to 
+     imageMarkers = webUrl + this.state.data[x].folderName + this.state.data[x].name + '/res/' + this.state.data[x].imageMarker;
+     console.log(imageMarkers);
+     imageMarkersNames = this.state.data[x].name.toString();//JSON.stringify(this.state.data[x].name);
+     //console.log(imageMarkersNames);
+     //console.log(imageMarkersNames.toString());
+     physicalWidths = this.state.data[x].physicalWidth;
+     console.log(physicalWidths);
+  var key = this.state.data[x].name.toString();
+    ARImageMarkersTargets[key] = {
+        source: {
+          uri :  `${imageMarkers}`
+         },
+         orientation : this.state.data[x].orientation,
+         physicalWidth : 0.1//this.state.data[x].physicalWidth.toString()
+    };
+
+}
+
+
+console.log(ARImageMarkersTargets);
+
+return ViroARTrackingTargets.createTargets(ARImageMarkersTargets);
+
+//return ViroARTrackingTargets.createTargets(essaimarker);//ViroARTrackingTargets.createTargets({ARImageMarkersTargets});
+}
+
+_loadAllMarkers(){
+  var views = [];
+
+  var marker = this.state.data;
+  var y = 0;
+
+  if (!this.state.addImageMarker) {
+    return;
+  }
+//alert("passer");
+//alert(this.state.totalItemNumber);
+
+for (let i = 0; i < this.state.totalItemNumber; i++){
+      // Iterate through your marker data here to
+      views.push((
+
+      <ViroARImageMarker target={this.state.data[i].name.toString()}
+      onAnchorFound={this._onAnchorFound}
+      onAnchorRemoved={this._onAnchorRemoved}
+      onAnchorUpdated={this._onAnchorUpdated}
+      key={this.state.data[i].name}
+      >
+       {this.getARScene(this.state.data[i].jsonRender)}
+      </ViroARImageMarker>
+));
+     console.log(this.state.data[i].name);
+     alert(this.state.data[i].jsonRender);
+  }
+  return views;
+
+}
+/*{this._getTexts(this.state.jsonRender.ViroTexts)}
+        {this._getVideos(this.state.jsonRender.ViroVideos)}
+        {this._getImages(this.state.jsonRender.ViroImages)}
+        {this._getImageMarkers()}
+        
+      <ViroBox rotation={[-90, 0, 0]}  position={[0, 0, 0]} scale={[.01,.01,.01]}/>
+      <ViroQuad 
+          rotation={[-90, 0, 0]} 
+          scale={[.1,.1,.1]}
+          materials={"green_plane"}/>
+
+           {this._getQuad()}
+
+           <ViroARPlane minHeight={.5} minWidth={.5}>
+        <ViroQuad
+          rotation={[-90, 0, 0]}
+          scale={[.5,.5,1]}
+          materials={"green_plane"}/>
+       
+
+        </ViroARPlane>
+
+        <ViroBox rotation={[-90, 0, 0]} position={[0, 0, 0]} scale={[.01,.01,.01]}/>
+      <ViroQuad 
+          rotation={[-90, 0, 0]} 
+          position={[0, 0, 0]} 
+          scale={[.1,.1,.1]}
+          materials={"green_plane"}/>
+        */
+
+getARScene(jsonRender) {
+ /* if (jsonRender.ViroTexts)
+  {*/
+//alert(jsonRender.ViroTexts.text);
+  /*}*/
+  return (
+<ViroARPlane minHeight={.5} minWidth={.5} alignment={"Horizontal"}>
+
+
+          {this._getQuad()}
+
+</ViroARPlane>
+
+
+
+
+  )
+}
+
+
+/* DEFINED QUAD SHAPE */
+_getQuad() {
+  if (this.state.foundAnchor) {
+    alert(this.state.foundAnchor.rotation);
+  return (
+
+
+        <ViroQuad
+          rotation={[0, .25, 0]}
+          scale={[.5,.5,1]}
+          materials={"green_plane"}/>
+      <ViroBox position={[0, .25, 0]} scale={[.5, .5, .5] />
+
+
+  )
+  }
+}
+
+ _getTexts(viroTxt) {
+ if (viroTxt != null) {
+   
+ const self = this;
+     let arrayTxts = [];
+     //scale={[parseFloat(viroTxt[key].scale), parseFloat(viroTxt[key].scale), parseFloat(viroTxt[key].scale)]}
+  Object.keys(viroTxt).forEach(key => {
+//alert(viroTxt[key].scale.x);
+  let boundTxtsClick = '';
+  if(viroTxt[key].linkUrl !== undefined) {
+
+  boundTxtsClick = this._onClickUrl.bind(this,  viroTxt[key].linkUrl);
+  }
+      arrayTxts.push(
+      <ViroNode position={[0,3,-1]} rotation={[0,0,0]}>
+      <ViroText textClipMode="None"
+      text={viroTxt[key].text}
+      scale={[parseFloat(viroTxt[key].scale.x),parseFloat(viroTxt[key].scale.y),parseFloat(viroTxt[key].scale.z)]}
+      position={[parseFloat(viroTxt[key].position.x),parseFloat(viroTxt[key].position.y),parseFloat(viroTxt[key].position.z)]}
+      rotation={[parseFloat(viroTxt[key].rotation.x),parseFloat(viroTxt[key].rotation.y),parseFloat(viroTxt[key].rotation.z)]}
+      style={viroTxt[key].style}
+      onClick = {boundTxtsClick} />
+      </ViroNode>
+      );
+    });
+
+    if (!this.state.foundAnchor) {
+        return
+    }
+    return (
+    arrayTxts
+    )
+     }
+}
+
+   _getVideosss(viroVids) {
+   if (viroVids != null) {
+   
+     let arrayVids = [];
+  Object.keys(viroVids).forEach(key => {
+
+  let boundVidsClick = '';
+  /*if(viroTxt[key].linkUrl !== undefined) {
+
+  boundVidsClick = this._onClickUrl.bind(this,  viroTxt[key].linkUrl);
+  }*/
+  arrayVids.push(
+  <ViroNode position={[0,3,-1]} rotation={[0,0,0]}>
+  
+  <View style={styles.containerv}>
+     
+    </View>
+
+  </ViroNode>
+  );
+    });
+
+    if (!this.state.foundAnchor) {
+        return
+    }
+    return (
+    arrayVids
+    )
+     }
+}
+ _getVideos(viroVids) {
+   if (viroVids != null) {
+   
+     let arrayVids = [];
+  Object.keys(viroVids).forEach(key => {
+
+  let boundVidsClick = '';
+  /*if(viroTxt[key].linkUrl !== undefined) {
+
+  boundVidsClick = this._onClickUrl.bind(this,  viroTxt[key].linkUrl);
+  }*/
+  arrayVids.push(
+  <ViroNode position={[0,0,0]} rotation={[0,0,0]}>
+            <ViroVideo paused={viroVids[key].paused} loop={viroVids[key].loop} volume={viroVids[key].volume} resizeMode={ 'cover' } muted={viroVids[key].muted} height={viroVids[key].height} width={viroVids[key].width} source={{uri:viroVids[key].url}} paused={this.state.videoPaused} transformBehaviors={viroVids[key].transformBehaviors}
+            scale={[parseFloat(viroVids[key].scale.x),parseFloat(viroVids[key].scale.y),parseFloat(viroVids[key].scale.z)]}
+        position={[parseFloat(viroVids[key].position.x),parseFloat(viroVids[key].position.y),parseFloat(viroVids[key].position.z)]}
+        rotation={[parseFloat(viroVids[key].rotation.x),parseFloat(viroVids[key].rotation.y),parseFloat(viroVids[key].rotation.z)]}
+            onClick={this._onClickVideo} />
+
+              {viroVids[key].controls && this._renderVideoControl() }
+
+            
+  </ViroNode>
+  );
+    });
+
+    if (!this.state.foundAnchor) {
+        return
+    }
+    return (
+    arrayVids
+    )
+     }
+}
+
+   _getImages(viroImgs) {
+ if (viroImgs != null) {
+   //    			placeholderSource={{uri:viroImgs[key].url}}
+     let arrayImgs = [];
+  Object.keys(viroImgs).forEach(key => {
+
+  let boundImgsClick = '';
+  if(viroImgs[key].linkUrl !== undefined) {
+
+  boundImgsClick = this._onClickUrl.bind(this,  viroImgs[key].linkUrl);
+  }
+  arrayImgs.push(
+  <ViroNode position={[0,0,0]} rotation={[0,0,0]}>
+            <ViroImage
+        height={viroImgs[key].height}
+        width={viroImgs[key].width}
+        source={{uri:viroImgs[key].url}}
+        scale={[parseFloat(viroImgs[key].scale.x),parseFloat(viroImgs[key].scale.y),parseFloat(viroImgs[key].scale.z)]}
+          position={[parseFloat(viroImgs[key].position.x),parseFloat(viroImgs[key].position.y),parseFloat(viroImgs[key].position.z)]}
+          rotation={[parseFloat(viroImgs[key].rotation.x),parseFloat(viroImgs[key].rotation.y),parseFloat(viroImgs[key].rotation.z)]}
+              onClick={boundImgsClick} />
+  </ViroNode>
+  );
+    });
+
+    if (!this.state.foundAnchor) {
+        return
+    }
+    return (
+    arrayImgs
+    )
+     }
+}
+
+getNoTrackingUI(){
+  const { isTracking, initialized } = this.state;
+    this.setState({
+      animationScanLine : true
+      
+  })
+
+  return (
+    
+    <ViroText text={
+      initialized ? 'Initializing AR...'
+        : "No Tracking"
+    }/>
+  )
+}
+
+_onAnchorUpdated(anchor) {
+  /*this.setState({
+    foundAnchor : anchor
+  });*/
+  /*alert(anchor.anchorId);
+  alert(anchor.position);
+  alert(anchor.rotation);
+  alert(anchor.center);*/
+ /* const foundAnchor= anchor;
+  this.props.sceneNavigator.viroAppProps._changeStateScanline();
+  this.props.sceneNavigator.viroAppProps._onLoadStart();*/
+  /*this.setState({
+    runAnimation: true,
+  });*/
+
+}
+_onAnchorRemoved(anchor) {
+  /*alert(anchor.anchorId);
+  alert(anchor.position);
+  alert(anchor.rotation);
+  alert(anchor.center);*/
+
+  this.props.sceneNavigator.viroAppProps._changeStateScanline();
+  this.props.sceneNavigator.viroAppProps._onLoadStart();
+  /*this.setState({
+    runAnimation: true,
+  });*/
+
+}
+
+_onAnchorFound(anchor) {
+  this.setState({
+    ///runAnimation: true,
+    foundAnchor : anchor,
+  });
+  //alert(anchor.anchorId);
+  //alert(anchor.position);
+  //alert(anchor.rotation);
+  /*alert(anchor.center);*/
+
+  this.props.sceneNavigator.viroAppProps._changeStateScanline();
+  this.props.sceneNavigator.viroAppProps._onLoadEnd();
+
+
+}
+
+getARScenebb() {
+  return (
+    
+      <ViroARImageMarker target={"chocolate"} 
+      onAnchorFound={this._onAnchorFound}
+      onAnchorRemoved={this._onAnchorRemoved}
+      onAnchorUpdated={this._onAnchorUpdated}
+      >
+       <ViroBox position={[0, 0, 0]} scale={[.05, .05, .05]} />
+      </ViroARImageMarker>
+   
+  )
+}
+
+
+  render() {
+    this._createAllMarkersTargets();
+    //{ this.state.isTracking ? this.getNoTrackingUI() : this._createAllMarkersTargets()  }
+   return (
+    
+    
+      <ViroARScene onTrackingUpdated={this._onInitialized} 
+      //anchorDetectionTypes={['PlanesHorizontal', 'PlanesVertical']}
+      //displayPointCloud={true} 
+      >
+      
+       { this.state.isTracking ? this.getNoTrackingUI() : this._loadAllMarkers() }
+      </ViroARScene>
+
+    );
+  }
+
+ _onInitialized = (state, reason) => {
+    if (state == ViroConstants.TRACKING_NORMAL) {
+      isTracking: true
+    } else if (state == ViroConstants.TRACKING_NONE) {
+      isTracking: false
+    }
+  }
+
+
+
+
+    _onTrackingInit() {
+   
+     this.setState({
+        trackingInitialized: true,
+        viroAppProps:{...this.state.viroAppProps, animationScanLine: true}
+        
+      });
+    }
+
+  
+    _onShowObject(objIndex, objUniqueName, yOffset) {
+      this.setState({
+          viroAppProps:{...this.state.viroAppProps, displayObject: true, yOffset: yOffset, displayObjectName: objUniqueName, objectSource:objArray[objIndex]},
+      });
+    }
+  
+}
+
+
+var styles = StyleSheet.create({
+  textStyle: {
+    flex: .5,
+    fontFamily: 'Roboto',
+    fontSize: 30,
+    color: '#ffffff',
+    textAlignVertical: 'top',
+    textAlign: 'left',
+    fontWeight: 'bold',
+  },
+  card: {
+    flexDirection: 'column'
+  },
+  cardWrapper: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    padding: 0.001,
+    flex: .5
+  },
+  subText: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    flex: .5
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+  helloWorldTextStyle: {
+    fontFamily: 'Arial',
+    fontSize: 30,
+    color: '#ffffff',
+    textAlignVertical: 'center',
+    textAlign: 'center',
+  },
+  outer : {
+    flex : 1,
+  },
+
+  arView: {
+    flex:1,
+  },
+
+  buttons : {
+    height: 80,
+    width: 80,
+    paddingTop:20,
+    paddingBottom:20,
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor:'#00000000',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ffffff00',
+  },
+  lineStyle:{
+    borderWidth: 4,
+    borderColor:'red',
+    margin:0,
+    top: 0,
+    width: width,
+    shadowOffset:{ width: 0, height: 10, },
+    shadowColor: 'black',
+    shadowOpacity: 1.0
+    
+},
+
+overlay: {
+  position:'absolute',
+  left:0,
+  right:0,
+  top:0,
+  bottom:0,
+  alignItems: 'center',
+  justifyContent:'center'
+},
+overlayHeart: {
+  tintColor: '#fff',
+},
+});
+
+/*ViroARTrackingTargets.createTargets({
+  chocolate : {
+    source : {
+      uri : 'http://www.pierregagliardi.com/reactapp/js/ice/chocolat/res/marker1.jpg',
+    },
+    //source : require('./res/mi_2.png'),
+    orientation : 'Up',
+    physicalWidth : 0.1, // 27" poster
+  }
+});*/
+
+ViroMaterials.createMaterials({
+  imagePlaceholder: {
+    diffuseColor: "rgba(255,255,255,1)"
+  },
+  quad: {
+    diffuseColor: "rgba(0,0,0,0.5)"
+  },
+  grid: {
+    diffuseTexture: require('./res/grid_bg.jpg'),
+  },
+  green_plane: {
+    lightingModel: "Constant",
+    diffuseColor: "#00ff0050"
+},
+});
+
+ViroAnimations.registerAnimations({
+  animateImage:{
+    properties:{
+      positionX: 0.05,
+      opacity: 1.0
+    },
+      easing:"Bounce",
+      duration: 500
+  },
+  animateViro: {
+    properties: {
+      positionZ: 0.02,
+      opacity: 1.0,
+    },
+    easing:"Bounce",
+    duration: 500
+  }
+});
+
+module.exports = BusinessCard;

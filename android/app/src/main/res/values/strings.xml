@@ -1,0 +1,6 @@
+<resources>
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">6m2L-XLVynEPAzxcbf92jtt6DXiIByyuKzlNV</string>
+    <string name="app_name">ICE2.0</string>
+    <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true">ALWAYS_SEND</string>
+    <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true">ALWAYS_SEND</string>
+</resources>
