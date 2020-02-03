@@ -15,10 +15,12 @@
 #import <React/RCTRootView.h>
 #import <CodePush/CodePush.h>
 
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+
   NSURL *jsCodeLocation;
 
   [AppCenterReactNativeCrashes registerWithAutomaticProcessing];  // Initialize AppCenter crashes
@@ -46,5 +48,9 @@
   [self.window makeKeyAndVisible];
   return YES;
 }
-
+#if RCT_DEV
+- (BOOL)bridge:(RCTBridge *)bridge didNotFindModule:(NSString *)moduleName {
+  return YES;
+}
+#endif
 @end

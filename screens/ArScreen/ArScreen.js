@@ -364,7 +364,8 @@ class ArScreen extends Component {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("didFocus", () => {
       console.log('didFocus');
-
+      setTimeout(() => {this.setState({isLoading: false})}, 2000)
+      //this._onLoadStart()
      /* this.setState({
         loading: false,
         isLoading: false,
@@ -376,12 +377,13 @@ class ArScreen extends Component {
     });
     this.blurListener = navigation.addListener("didBlur", () => {
       console.log('didBlur');
-     /* this.setState({
-        loading: true,
+      this.setState({
+        //loading: true,
         isLoading: true,
-        animationScanLine: false,
-        resetScene: true
-      })*/
+        //animationScanLine: false,
+        //resetScene: true
+      })
+      //this._onLoadEnd()
       // The screen is focused
       // Call any action
     });
@@ -713,7 +715,7 @@ class ArScreen extends Component {
     return (
       <View style={styles.flex} >
         <StatusBar hidden={true} />
-        {loading ? this._renderActivityLoader() :
+        {this.state.isLoading? this._renderActivityLoader() :
           <View style={styles.flex}>
             <ViroARSceneNavigator
               //key={1} 
