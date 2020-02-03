@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1039513762399",
+    "firebase_url": "https://ice20-ice.firebaseio.com",
+    "project_id": "ice20-ice",
+    "storage_bucket": "ice20-ice.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039513762399:android:fedae23a1146e4b04479ea",
+        "android_client_info": {
+          "package_name": "com.ice20"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039513762399-dumlgcp73sccl04htv80hl1lg3ef21j3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4tbBTTSRfJ-0O9VAQwXnt8m--N7N6bZA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039513762399-dumlgcp73sccl04htv80hl1lg3ef21j3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1039513762399-ugga5fik0vaaop1r8g77spm2ch9i70gi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.pgar.ICE2.0",
+                "app_store_id": "10102019"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

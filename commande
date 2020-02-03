@@ -1,0 +1,8 @@
+react-native run-android --variant releaseStaging
+react-native run-android --variant release
+
+
+
+code-push release-react ICE20-ANDROID android --description "corrections générales" -m -t 3.0.2 --deploymentName Production
+
+code-push release-react ICE20-IOS ios --description "corrections générales" -m -t 3.0.3 --deploymentName Production

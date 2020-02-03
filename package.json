@@ -1,0 +1,46 @@
+{
+  "name": "ICE20",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@react-native-community/async-storage": "^1.6.2",
+    "@react-native-community/netinfo": "^4.6.0",
+    "lodash": "^4.17.15",
+    "react": "16.8.3",
+    "react-native": "0.59.9",
+    "react-native-camera": "^3.9.0",
+    "react-native-code-push": "^5.7.0",
+    "react-native-elements": "^1.2.6",
+    "react-native-firebase": "^5.5.6",
+    "react-native-gesture-handler": "^1.4.1",
+    "react-native-network-info": "^5.2.1",
+    "react-native-share": "^2.0.0",
+    "react-native-torch": "https://github.com/ludo/react-native-torch.git",
+    "react-native-vector-icons": "^6.6.0",
+    "react-native-video": "^5.0.1",
+    "react-navigation": "^3.13.0",
+    "react-redux": "^7.1.1",
+    "react-redux-firebase": "^3.0.0-beta.3",
+    "react-timer-mixin": "^0.13.4",
+    "react-viro": "^2.17.0",
+    "redux": "^4.0.4",
+    "redux-firestore": "^0.9.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/runtime": "^7.6.3",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0",
+    "metro-react-native-babel-preset": "^0.56.0",
+    "react-test-renderer": "16.8.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
