@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "start1": "node node_modules/react-native/local-cli/cli.js start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
     "test": "jest"
   },
   "dependencies": {
@@ -19,7 +22,7 @@
     "react-native-gesture-handler": "^1.4.1",
     "react-native-network-info": "^5.2.1",
     "react-native-share": "^2.0.0",
-    "react-native-torch": "https://github.com/ludo/react-native-torch.git",
+    "react-native-torch": "^1.2.0",
     "react-native-vector-icons": "^6.6.0",
     "react-native-video": "^5.0.1",
     "react-navigation": "^3.13.0",
