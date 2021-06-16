@@ -10,7 +10,8 @@ class AfficheScreen extends Component {
         super(props);
         this.state = {
             animations: this.props.animations,
-            materials: this.props.materials
+            materials: this.props.materials,
+            gotAdminRight: this.props.gotAdminRight
         }
     }
     _listEmptyComponent = () => {
@@ -32,7 +33,8 @@ class AfficheScreen extends Component {
                     description: item.description,
                     data: item,
                     materials: this.state.materials,
-                    animations: this.state.animations
+                    animations: this.state.animations,
+                    gotAdminRight: this.state.gotAdminRight
                 })} >
                     <Image style={styles.imageThumbnail} source={{ uri: item.markerUrl }} />
                     <View style={styles.titleOverlay}>
@@ -42,9 +44,25 @@ class AfficheScreen extends Component {
             </View>
         )
     }
+    renderFooter = () => {
+        //if (!this.state.loading) return null;
+    
+        return (
+          <View
+            style={{
+              paddingVertical: 20,
+              borderTopWidth: 1,
+              borderColor: "#CED0CE"
+            }}
+          >
+            
+          </View>
+        );
+      };
+
     render() {
         //const { navigation } = this.props;
-//const data = navigation.dangerouslyGetParent().getParam("data", null);
+        //const data = navigation.dangerouslyGetParent().getParam("data", null);
         //console.log(data)
         //console.log(this.props.campagnes)
         //console.log(this.state.materials)
@@ -62,24 +80,39 @@ class AfficheScreen extends Component {
          })*/
         /* const johnArr = _.filter(this.props.campagnes, item => !item.disabled);
          console.log(johnArr)*/
-         let result = _.flatMap(this.props.campagnes, ({ nom, markers }) => {
-            return markers //this.props.campagnes
-              .filter(item => !item.disabled)
-              _.map(markers, marker => ({ nom, ...marker }))
-              //.map(sale => sale.total);
-          });
+        let result = null;
+        if (!this.props.gotAdminRight) {
+            result = _.flatMap(this.props.campagnes, ({ nom, markers }) => {
+                return markers //this.props.campagnes
+               // _.size(markers) > 0
+                //.filter(item => item.disabled)
+                    .filter(item => !item.disabled)
+                _.map(markers, marker => ({ nom, ...marker }))
+                //.map(sale => sale.total);
+            });
+        }
+        else {
+            result = _.flatMap(this.props.campagnes, ({ nom, markers }) => {
+                return markers //this.props.campagnes
+                //_.size(markers) > 0
+                //.filter(item => !item.disabled/*!item.disabled*/)
+                _.map(markers, marker => ({ nom, ...marker }))
+                //.map(sale => sale.total);
+            });
+        }
 
-        const results = _.flatMap(this.props.campagnes, ({ nom, markers }) => 
+
+        const results = _.flatMap(this.props.campagnes, ({ nom, markers }) =>
             ////console.log(markers)
             //markers.filter( item =>  !item.disabled )
-            
-            
+
+
             _.map(markers, marker => ({ nom, ...marker }))
             //_.filter(markers, item => item.name === "john")
-            
+
 
         );
-       // console.log(result)
+        // console.log(result)
 
         ////console.log(result)
         ////console.log(this.props.campagnes[0].markers)
@@ -96,6 +129,8 @@ class AfficheScreen extends Component {
                         //keyExtractor={this._keyExtractor}
                         keyExtractor={(item, index) => index}
                         ListEmptyComponent={this._listEmptyComponent}
+                        ListFooterComponentStyle={{paddingBottom: 30}}
+                        ListFooterComponent= {() => this.renderFooter()}
                     ></FlatList>
                 </View>
             </View>
@@ -179,6 +214,7 @@ const mapStateToProps = state => {
         campagnes: state.firestore.ordered.campagnes,
         animations: state.firestore.ordered.animations,
         materials: state.firestore.ordered.materials,
+        gotAdminRight: state.ui.gotAdminRight
     }
 }
 
@@ -188,18 +224,35 @@ const mapDispatchToProps = {
 export default compose(
     connect(mapStateToProps),
     firestoreConnect(props => {
-        return [
-            {
-                collection: 'campagnes',
-                where: [['disabled', '==', false]],
-            },
-            {
-                collection: 'animations',
-            },
-            {
-                collection: 'materials',
-            },
-        ]
+console.log(props)
+        if (props.gotAdminRight === true) {
+            return [
+                {
+                    collection: 'campagnes',
+                    //where: [['disabled', '==', false]],
+                },
+                {
+                    collection: 'animations',
+                },
+                {
+                    collection: 'materials',
+                },
+            ]
+        }
+        else {
+            return [
+                {
+                    collection: 'campagnes',
+                    where: [['disabled', '==', false]],
+                },
+                {
+                    collection: 'animations',
+                },
+                {
+                    collection: 'materials',
+                },
+            ]
+        }
     }),
     /*firestoreConnect(props => {
         return [

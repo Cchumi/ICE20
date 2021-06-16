@@ -247,7 +247,7 @@ class Swiper extends Component {
 
   async getKey () {
     try {
-      const value = await AsyncStorage.getItem('@ICE20:skipIntro');
+      const value = await AsyncStorage.getItem('@LabelConnect:skipIntro');
       //this.setState({myKey: value});
       
     } catch (error) {
@@ -257,8 +257,8 @@ class Swiper extends Component {
 
   async saveKey () {
     try {
-      await AsyncStorage.setItem('@ICE20:skipIntro', '1');
-      const value = await AsyncStorage.getItem('@ICE20:skipIntro');
+      await AsyncStorage.setItem('@LabelConnect:skipIntro', '1');
+      const value = await AsyncStorage.getItem('@LabelConnect:skipIntro');
       //state = this.initState(this.props);
      /* this.setState({
         index: this.state.index - this.state.total -1,
@@ -285,8 +285,8 @@ class Swiper extends Component {
 
   async resetKey () {
     try {
-      await AsyncStorage.removeItem('@ICE20:skipIntro');
-      const value = await AsyncStorage.getItem('@ICE20:skipIntro');
+      await AsyncStorage.removeItem('@LabelConnect:skipIntro');
+      const value = await AsyncStorage.getItem('@LabelConnect:skipIntro');
       //this.setState({myKey: value});
     } catch (error) {
       console.log("Error resetting data" + error);
@@ -345,7 +345,7 @@ class Swiper extends Component {
         //source={track}
        // source={{uri: 'assets/audio.mp3'}}
         source={{uri: track}} // Can be a URL or a local file.
-        ref="audioElement"
+        //ref={"audioElement"}
         paused={this.state.audiopaused}               // Pauses playback entirely.
         resizeMode="cover"           // Fill the whole screen at aspect ratio.
         repeat={true}                // Repeat forever.

@@ -9,6 +9,7 @@ import UpdateScreen from "../../screens/Update/Update";
 import TutorielScreen from "../../screens/Tutoriel/Tutoriel";
 import MessageScreen from "../../screens/Message/Message";
 import ConditionsScreen from '../../screens/Conditions/ConditionsGenerales'
+import AdminPasswdScreen from '../../screens/AdminPasswd/AdminPasswd'
 
 import theme from '../../styles/theme.styles'
 const SettingsStackNavigator = createStackNavigator({
@@ -51,6 +52,9 @@ const SettingsStackNavigator = createStackNavigator({
         screen: ConditionsScreen,
 
     },
+    AdminPasswd: {
+        screen: AdminPasswdScreen
+    }
 })
 SettingsStackNavigator.navigationOptions = ({ navigation }) => {
     let tabBarVisible = true;

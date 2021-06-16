@@ -36,7 +36,7 @@ import {
   ViroARPlaneSelector
 } from 'react-viro';
 
-//import ViroARPlaneSelectorCustom from '../../../ViroComponents/ViroARPlaneSelectorCustom'
+import ViroARPlaneSelectorCustom from '../../../ViroComponents/ViroARPlaneSelectorCustom'
 import {
   _getVideos,
   _getTexts,
@@ -69,6 +69,7 @@ class DemoAr extends Component {
       data: this.props.arSceneNavigator.viroAppProps.data,
       materials: this.props.arSceneNavigator.viroAppProps.materials,
       animations: this.props.arSceneNavigator.viroAppProps.animations,
+      gotAdminRight: this.props.arSceneNavigator.viroAppProps.gotAdminRight,
       jsonRender: [],
       loadVideo: true,
       //dataMarker: this.state.data.markers,
@@ -189,8 +190,8 @@ class DemoAr extends Component {
     //_onClickVideo(VideoLink) {
     //this._togglePauseVideo();
     //alert(index);
-    //console.log(index)
-    //console.log(markerName)
+    console.log(index)
+    console.log(markerName)
     this.setState({
       videoPaused: { [markerName.nom + "_" + index]: !this.state.videoPaused[markerName.nom + "_" + index] },
     });
@@ -277,21 +278,22 @@ class DemoAr extends Component {
   }
   _onUpdateTime = (current, total) => {
     //console.log("Video time update, current: " + current + ", total: " + total);
-    /*if(current>10) {
-      this.setState({loadVideo: false})
+    //this.setState({ loadVideo: false })
+    if (current > 0.1) {
+      this.setState({ loadVideo: false })
       //console.log('state load video' , this.state.loadVideo)
-    }*/
+    }
   }
   _onVideoError = (event) => {
-    //console.log("Video loading failed with error: " + event.nativeEvent.error);
+    console.log("Video loading failed with error: " + event.nativeEvent.error);
   }
   _onVideoBufferStart = () => {
-    //console.log('buffer video start')
-    //this.setState({loadVideo: true})
+    console.log('buffer video start')
+    this.setState({ loadVideo: true })
     //Alert.alert(JSON.stringify(this.arVideoRef));
   }
   _onVideoBufferEnd = () => {
-    //console.log('buffer video end')
+    console.log('buffer video end')
     this.setState({ loadVideo: false })
     // Alert.alert(JSON.stringify(this.arVideoRef));
   }
@@ -303,6 +305,10 @@ class DemoAr extends Component {
     /*if (!this.state.addImageMarker) {
       return;
     }*/
+    console.log(this.state.data)
+    /*this.state.data && this.state.data.map((marker, index) => {
+      console.log(marker)
+    })*/
     let animations = {};
     ////console.log(this.props.arSceneNavigator.viroAppProps);
     for (let z = 0; z < this.state.animations.length; z++) {
@@ -433,7 +439,7 @@ class DemoAr extends Component {
     //console.log(jsonRender)
     //console.log(markerName)
     return (
-      <ViroNode position={[0, 0, 0]} scale={[2, 2 , 2]} >
+      <ViroNode position={[0, 0, 0]} scale={[2, 2, 2]} >
         {this._getImages(jsonRender.ViroImages, markerName, this)}
         {this._getVideos(jsonRender.ViroVideos, markerName, this)}
         {//this._getTexts(jsonRender.ViroTexts, markerName, this)
@@ -708,7 +714,15 @@ return arrayObjs;
     }
     return arrayFlexs;
   }*/
-
+  getNoTrackingUI() {
+    const { isTracking, initialized } = this.state;
+    return (
+      <ViroText text={
+        initialized ? 'Initializing AR...'
+          : "No Tracking"
+      } />
+    )
+  }
 
 
   _renderScene() {
@@ -717,6 +731,7 @@ return arrayObjs;
     )
   }
   _planeSelected() {
+    //console.log('elected plane')
     this.setState(prevState => ({
       videoPaused: { ...prevState.videoPaused, [this.state.data.nom]: false },
       playAnim: { ...prevState.playAnim, [this.state.data.nom]: true }
@@ -726,10 +741,15 @@ return arrayObjs;
   // Callback fired when the app receives AR Tracking state changes from ViroARScene.
   // If the tracking state is not NORMAL -> show the user AR Initialization animation 
   // to guide them to move the device around to get better AR tracking.
-  _onTrackingUpdated(state, reason) {
+  _onTrackingUpdated = (state, reason) => {
     var trackingNormal = false;
     if (state == ViroConstants.TRACKING_NORMAL) {
       trackingNormal = true;
+    }
+    if (state == ViroConstants.TRACKING_NORMAL) {
+      isTracking: true
+    } else if (state == ViroConstants.TRACKING_NONE) {
+      isTracking: false
     }
     // this.props.dispatchARTrackingInitialized(trackingNormal);
   }
@@ -747,23 +767,41 @@ return arrayObjs;
         onTrackingUpdated={this._onTrackingUpdated}
         anchorDetectionTypes={['PlanesHorizontal', 'PlanesVertical']}
       >
-        {/*loadMarkers*/}
-        <ViroARPlaneSelector minHeight={.05} minWidth={.05} maxPlanes={1} alignment={"Horizontal"} /*type={"image"}*/
-          onPlaneSelected={() => {
-            this.props.sceneNavigator.viroAppProps._hideMessage();
-            this._planeSelected();
-          }}
-        >
-          <ViroNode onPinch={this._onPinch} onRotate={this._onRotate} scale={this.state.scale} rotation={this.state.rotation} ref={this._setARNodeRef}>
-            {//loadMarkers
-            getARScene
-            }
-            {//getAllAnimations
-            }
-            {//getAllMaterials
-            }
-          </ViroNode>
-        </ViroARPlaneSelector>
+        {this.state.isTracking ? this.getNoTrackingUI() :
+          <>
+            {/*loadMarkers*/}
+            {<ViroAmbientLight color="#ffffff" />}
+
+            {/* DirectionalLight with the direction away from the user, pointed upwards, to light up the "face" of the model */}
+            {/*<ViroDirectionalLight color="#ffffff" direction={[0,-1,-.2]}/>*/}
+
+            {/* Spotlight on top of the model to highlight this model*/}
+            {/*<ViroSpotLight
+            innerAngle={5}
+            outerAngle={90}
+            direction={[0,1,0]}
+            position={[0, -7, 0]}
+            color="#ffffff"
+            castsShadow={true}
+            intensity={250}/>*/}
+            <ViroARPlaneSelector /*minHeight={.005} minWidth={.005}*/ /*maxPlanes={1}*/ alignment={"Horizontal"} /*type={"image"}*/ dragType={"FixedToWorld"}
+              onPlaneSelected={() => {
+                this.props.sceneNavigator.viroAppProps._hideMessage();
+                this._planeSelected();
+              }}
+            >
+              <ViroNode onPinch={this._onPinch} onRotate={this._onRotate} scale={this.state.scale} rotation={this.state.rotation} ref={this._setARNodeRef}>
+                {//loadMarkers
+                  getARScene
+                }
+                {//getAllAnimations
+                }
+                {//getAllMaterials
+                }
+              </ViroNode>
+            </ViroARPlaneSelector>
+          </>
+        }
       </ViroARScene>
     );
   }

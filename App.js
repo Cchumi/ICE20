@@ -37,7 +37,7 @@ import RootNavigator from './navigation/RootNavigator'
 import { Provider } from 'react-redux';
 import OfflineNotice from './components/OfflineNotice'
 import createReduxStore from './redux/store'
-import firebase from 'react-native-firebase'
+import rnfirebase from 'react-native-firebase'
 import { ReactReduxFirebaseProvider, firebaseReducer } from 'react-redux-firebase'
 import { createFirestoreInstance, firestoreReducer } from 'redux-firestore' // <- needed if using firestore
 // after other imports
@@ -45,7 +45,8 @@ const fbConfig = {} // object containing Firebase config
 const rrfConfig = { /*userProfile: 'users'*/ } // react-redux-firebase config
 const store = createReduxStore()
 // Initialize firebase instance
-firebase.initializeApp(fbConfig)
+//firebase.initializeApp(fbConfig)
+const firebase = rnfirebase.app();
 firebase.firestore()
 /*const rrfConfig = {
   //userProfile: 'users',
@@ -93,7 +94,7 @@ const rrfProps = {
 
 const App = () => {
 
-  const [isAuth, setisAuth] = useState(null);
+  const [isAuth, setisAuth] = useState(true);
 //const onChange = useCallback((e, value) => setSlide(value), []);
 firebase.auth().onAuthStateChanged(async user => {
   if (!user) {
@@ -116,7 +117,7 @@ firebase.auth().onAuthStateChanged(async user => {
     //console.log('user', user)
     //firebase.auth().signOut()
     console.log('signed 2')
-    setisAuth(true)
+    //setisAuth(true)
   }
 });
   if (!isAuth) {

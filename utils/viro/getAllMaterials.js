@@ -5,7 +5,6 @@ import {
 /*CREATION DES DIFFERENTS MARKERS IMAGE OU OBJ*/
 export const _createAllMaterials = (materialsData) => {
     let materials = {};
-    let materials2 = {};
     // `${item.properties.diffuseTextureUrl}`
     materialsData.map((item, index) => {
         //console.log('materials')

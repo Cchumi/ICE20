@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "ICE20.app"
+               BuildableName = "LabelConnect.app"
                BlueprintName = "ICE20"
                ReferencedContainer = "container:ICE20.xcodeproj">
             </BuildableReference>
@@ -59,7 +59,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ICE20.app"
+            BuildableName = "LabelConnect.app"
             BlueprintName = "ICE20"
             ReferencedContainer = "container:ICE20.xcodeproj">
          </BuildableReference>
@@ -78,7 +78,7 @@
       </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -94,7 +94,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ICE20.app"
+            BuildableName = "LabelConnect.app"
             BlueprintName = "ICE20"
             ReferencedContainer = "container:ICE20.xcodeproj">
          </BuildableReference>
@@ -111,7 +111,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ICE20.app"
+            BuildableName = "LabelConnect.app"
             BlueprintName = "ICE20"
             ReferencedContainer = "container:ICE20.xcodeproj">
          </BuildableReference>

@@ -84,13 +84,17 @@ class DemoTemplate extends Component {
       message: "Bouger lentement la caméra pour faire apparaitre la cible puis cliquez dessus!",
     });
     //}
-    this.setState({
-      trackingInitialized: true,
-    });
+
+
     this.props.navigation.setParams({ exitViro: this._exitViro });
     this.willBlurListener = this.props.navigation.addListener('willBlur', () => {
       this._exitViro();
     })
+    setTimeout(() => {
+      this.setState({
+        trackingInitialized: true,
+      });
+    }, 2000)
   }
   componentDidUpdate() {
     /*if ( ViroConstants.TRACKING_REASON_INSUFFICIENT_FEATURES) {
@@ -125,6 +129,7 @@ class DemoTemplate extends Component {
     const data = navigation.getParam('data', '');
     const materials = navigation.getParam('materials', '');
     const animations = navigation.getParam('animations', '');
+    const gotAdminRight= navigation.getParam('gotAdminRight', '');
     //console.log(data);
     //console.log(navigation)
     //console.log(materials);
@@ -146,11 +151,16 @@ class DemoTemplate extends Component {
             autofocus={true}
             videoQuality="High"
             initialScene={{ scene: DemoARScene }}
-            viroAppProps={{ data: data, materials: materials, animations: animations, _hideMessage: this._hideMessage.bind(this) }}
+            viroAppProps={{ data: data, materials: materials, animations: animations, _hideMessage: this._hideMessage.bind(this), gotAdminRight: gotAdminRight }}
           //onExit={this._exitViro}
           />
-          : <Text>exit</Text>}
-        {this.state.showMessage &&
+          :
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'column', paddingVertical: 15 }}>
+            <ActivityIndicator />
+            <Text style={localStyles.textmessage}>Chargement en cours...</Text>
+          </View>
+        }
+        {this.state.showMessage && this.state.trackingInitialized &&
           <View style={localStyles.message}>
             <Text style={localStyles.textmessage}>{this.state.message}</Text>
           </View>}
@@ -213,6 +223,7 @@ class DemoTemplate extends Component {
 var localStyles = StyleSheet.create({
   outer: {
     flex: 1,
+    backgroundColor: 'black'
   },
 
   arView: {
@@ -242,10 +253,12 @@ var localStyles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#00000066',
+    paddingHorizontal: 10
   },
   textmessage: {
     color: '#fff',
     textAlign: 'center',
+    //width: '100%',
   },
 });
 export default withNavigation(DemoTemplate);

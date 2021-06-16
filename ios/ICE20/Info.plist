@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>ICE20</string>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -42,6 +42,8 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Accès à votre caméra requis pour la réalité augmentée</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Accès pour votre localisation</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Accès pour votre localisation</string>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>

@@ -130,3 +130,11 @@ export function ARTrackingInitialized(trackingNormal) {
     trackingNormal: trackingNormal,
   };
 }
+
+// action to show / hide AR Initialization UI to guide user to move device around
+export function GotAdminRight(value) {
+  return {
+    type: 'GOT_ADMIN_RIGHT',
+    gotAdminRight: value,
+  };
+}

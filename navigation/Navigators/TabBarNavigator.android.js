@@ -51,7 +51,7 @@ const TabNavigatorCli = createBottomTabNavigator({
             },
             tabBarButtonComponent: () => (
 
-                    <AddButton onRef={ref => (this.child = ref)} screenprops={{ isAScreens: true }}
+                    <AddButton /*onRef={ref => (this.child = ref)}*/ screenprops={{ isAScreens: true }}
                     />
 
 

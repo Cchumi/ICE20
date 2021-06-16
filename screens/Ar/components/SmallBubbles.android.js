@@ -32,6 +32,7 @@ import { withNavigation } from 'react-navigation';
 import FAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Torch from 'react-native-torch';
+import { RNCamera } from "react-native-camera"
 
 // constants
 import {
@@ -143,9 +144,12 @@ class SmallBubbles extends React.Component {
     _handlePressTorch = () => {
         const { isTorchOn } = this.state;
         //this.state.isCameraOn?RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off
-        Alert.alert("Fonction Flash non disponnible sous android")
-        Torch.switchState(!isTorchOn);
+        Alert.alert("Fonction Flash non disponible pour le moment sous android")
+        
+        //RNCamera.Constants.FlashMode.torch;
         this.setState({ isTorchOn: !this.state.isTorchOn });
+        return false;
+        Torch.switchState(!isTorchOn);
 
     }
     _handlePressPhoto = () => {

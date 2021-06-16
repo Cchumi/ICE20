@@ -29,7 +29,9 @@ import {
   ViroSurface,
   ViroARPlaneSelector
 } from 'react-viro';
-
+import { _createMarkerItemMaterial } from './getMarkerElementMaterial'
+import { _createMarkerItemAnimation } from './getMarkerElementAnimation'
+import { _getVideoControls } from './getRenderVideoControls'
 import { createState, checkInput } from './setState'
 /**
  * Set all the image and asset references required in this scene.
@@ -38,67 +40,6 @@ var buttonSize = 0.075;
 var VIDEO_REF = "videoref";
 var VideoControlRef = "VideoControlRef";
 
-
-/**
-  * Render a set of Video UI Controls. This includes (in the order displayed from left to right):
-  * Restart, Previous Video, Play/Pause, Next Video, Volume.
-  */
-const _renderVideoControl = (t,  position, rotation, scale, markerName) => {
-  ////console.log(scale.x)
-  return (
-    <ViroNode position={position} rotation={rotation} scale={scale} opacity={1}
-    animation={{ name: t.state.videoControlsAnimation, run: t.state.runAnimation, loop: false }} 
-    >
-      {/*<ViroImage
-        scale={[0.1, 0.075, 1]}
-        position={[0, 0, 0.005]}
-        source={require("./res/player_controls_container.png")} />*/}
-
-      {_renderPlayControl(t.state.videoPaused[markerName], t._onClickVideo)
-      }
-
-      <ViroButton
-        position={[0.01, 0, 0.01]}
-        scale={[0.3, 0.3, 0.3]}
-        width={buttonSize}
-        height={buttonSize}
-        source={require("./res/skip.png")}
-        //hoverSource={require("./res/skip_hover.png")}
-        clickSource={require("./res/skip.png")}
-        onClick={() => t._fullscreen()} />
-    </ViroNode>
-  );
-}
-/**
-* Renders either the play or pause icon depending on video state.
-*/
-const _renderPlayControl = (videoPaused, onClickVideo) => {
-  if (videoPaused) {
-    return (
-      <ViroButton
-        position={[- 0.01, 0, 0.01]}//{[0, 0, 0.03]}
-        scale={[0.3, 0.3, 0.3]}
-        width={buttonSize}
-        height={buttonSize}
-        source={require("./res/play.png")}
-        //hoverSource={require("./res/play_hover.png")}
-        clickSource={require("./res/play.png")}
-        onClick={onClickVideo} />
-    );
-  } else {
-    return (
-      <ViroButton
-        position={[-0.01, 0, 0.01]}//{[0, -0.05, 0.03]}
-        scale={[0.3, 0.3, 0.3]}
-        width={buttonSize}
-        height={buttonSize}
-        source={require("./res/pause.png")}
-        //hoverSource={require("./res/pause_hover.png")}
-        clickSource={require("./res/pause.png")}
-        onClick={onClickVideo} />
-    );
-  }
-}
 
 export const _getVideos = (viroVids, markerName, t) => {
   ////console.log(viroVids)
@@ -110,7 +51,9 @@ export const _getVideos = (viroVids, markerName, t) => {
   ////console.log(markerName)
   ////console.log(t._setARVideoRef)
   // this.checkInput('videoPaused', true)
+  //const [buffering, setBuffering] = React.useState(true)
   //this.ListeningStateChangedEvent
+
   let arrayVids = [];
   ////console.log(markerName)
   if (viroVids) {
@@ -120,6 +63,7 @@ export const _getVideos = (viroVids, markerName, t) => {
     Object.keys(viroVids).forEach((currentKey, index) => {
       if (viroVids[currentKey] != null && viroVids[currentKey] != undefined) {
         var boundVidsClick = () => { };
+        let materials = {};
         //t._onSetInitialStateVideo(markerName, index)
         ////console.log('index ', index)
         //console.log('index ', currentKey)
@@ -128,22 +72,45 @@ export const _getVideos = (viroVids, markerName, t) => {
         ////console.log('index ', t.state)
         //console.log('index ', t.state.videoPaused)
         //console.log('index ', t.state.videoPaused[markerName])
-        //console.log(viroVids[currentKey].animationName)
+        //console.log(viroVids[currentKey])
         // let pausedValue = markerName+"_"+index;
         //alert(index);
+        let animation = {
+          name: viroVids[currentKey].animation && viroVids[currentKey].animation.nom ? viroVids[currentKey].animation.nom : viroVids[currentKey].animationName,
+          run: t.state.playAnim[markerName] ? t.state.playAnim[markerName] : false,
+          loop: viroVids[currentKey].animation && viroVids[currentKey].animation.loop ? viroVids[currentKey].animation.loop : viroVids[currentKey].animationLoop,
+          //onFinish: viroVids[currentKey].animation &&  !viroVids[currentKey].animation.loop ? undefined : t._animateFinished.bind(t, markerName)
+        }
+        //console.log('Material ', viroVids[currentKey].material)
+        //console.log('Animation ', viroVids[currentKey].animation)
+        if (viroVids[currentKey].material && viroVids[currentKey].material.nom) {
+          _createMarkerItemMaterial(viroVids[currentKey].material)
+        }
+        if (viroVids[currentKey].animation && viroVids[currentKey].animation.nom) {
+          _createMarkerItemAnimation(viroVids[currentKey].animation)
+        }
+        if (viroVids[currentKey].animation && !viroVids[currentKey].animation.loop) {
+          animation = {
+            ...animation,
+            onFinish: t._animateFinished.bind(t, markerName)
+          }
+        }
+
         if (viroVids[currentKey].url !== undefined) {
           //boundVidsClick = _onClickVideos.bind(this,markerName + "_" + index);
         }
+        //console.log('ici video')
+        //console.log(animation)
         ////console.log(markerName)
         arrayVids.push(
           <ViroNode key={currentKey}>
-            {/*} <ViroSpinner 
+            <ViroSpinner
               type='Light'
-              position={[viroVids[currentKey].position.x, viroVids[currentKey].position.y, viroVids[currentKey].position.z]}
+              position={[viroVids[currentKey].position.x, viroVids[currentKey].position.y + 0.01, viroVids[currentKey].position.z]}
               rotation={[viroVids[currentKey].rotation.x, viroVids[currentKey].rotation.y, viroVids[currentKey].rotation.z]}
               scale={[0.05, 0.05, 0.05]}
-              visible={t.state.loadVideo }
-           />*/}
+              visible={t.state.loadVideo ? t.state.loadVideo : false} //erreur state ici
+            />
             <ViroVideo
               key={currentKey}
               ref={t._setARVideoRef}
@@ -166,38 +133,38 @@ export const _getVideos = (viroVids, markerName, t) => {
               //fullscreen={true} 
               rotation={[viroVids[currentKey].rotation.x, viroVids[currentKey].rotation.y, viroVids[currentKey].rotation.z]}
               onClick={() => { t._onClickVideo(markerName, index) }}
-              materials={viroVids[currentKey].materials}
+              //materials={viroVids[currentKey].material && viroVids[currentKey].material.nom ? viroVids[currentKey].material.nom : viroVids[currentKey].materials}
               //materials={["chromaKeyFilteredVideo"]}
               //onClick={boundVidsClick} 
-              animation={
-                {
-                  name: viroVids[currentKey].animationName,
+              animation={animation
+                /*{
+                  name: viroVids[currentKey].animation && viroVids[currentKey].animation.nom ? viroVids[currentKey].animation.nom : viroVids[currentKey].animationName,
                   run: t.state.playAnim[markerName],
-                  loop: viroVids[currentKey].animationLoop,
-                  onFinish: t._animateFinished.bind(t, markerName)
-                }
+                  loop: viroVids[currentKey].animation && viroVids[currentKey].animation.loop ? viroVids[currentKey].animation.loop : viroVids[currentKey].animationLoop,
+                  onFinish: viroVids[currentKey].animation &&  !viroVids[currentKey].animation.loop ? undefined : t._animateFinished.bind(t, markerName)
+                }*/
               }
               onFinish={t._onVideoFinished}
-              onLoadStart={t.handleLoadStart}
+              // onLoadStart={t.handleLoadStart}
               //onUpdateTime={t._onUpdateTime}
-              onError={t._onVideoError}
+              //onError={t._onVideoError}
+              //onBufferStartViro={console.log('buffered viro')}
+              //onBufferStart={_onVideoBufferBegin}
               onBufferStart={t._onVideoBufferStart}
               onBufferEnd={t._onVideoBufferEnd}
-              //onBufferEnd={alert('buffer end')}
-              //onLoadStart={t.handleLoadStart}
-              //onBuffer={t.handleBuffer}
-              onUpdateTime={t._onUpdateTime}
+            //onBufferEnd={_onVideoBufferEnd}
+            //onBufferEnd={alert('buffer end')}
+            //onLoadStart={t.handleLoadStart}
+            //onBuffer={t.handleBuffer}
+            //onUpdateTime={t._onUpdateTime}
             //onClick={this._onClickVideo}
             >
             </ViroVideo>
 
             {t.state.videoPaused[markerName] &&
-              _renderVideoControl(t, [viroVids[currentKey].position.x, viroVids[currentKey].position.y, viroVids[currentKey].position.z], [viroVids[currentKey].rotation.x, viroVids[currentKey].rotation.y, viroVids[currentKey].rotation.z], [1, 1, 1], markerName)
+              _getVideoControls(t, [viroVids[currentKey].position.x, viroVids[currentKey].position.y, viroVids[currentKey].position.z], [viroVids[currentKey].rotation.x, viroVids[currentKey].rotation.y, viroVids[currentKey].rotation.z], [1, 1, 1], markerName, viroVids[currentKey].url)
             }
-
           </ViroNode>
-
-
         );
         ////console.log(arrayVids)
       }

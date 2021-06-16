@@ -17,16 +17,17 @@ import PropTypes from 'prop-types';
 //import { checkMisnamedProps } from '../Utilities/ViroProps';
 
 var createReactClass = require('create-react-class');
+
+/*var ViroMaterials = require('../Material/ViroMaterials');
+var ViroARPlane = require('./ViroARPlane');
+var ViroQuad = require('../ViroQuad');
+var ViroNode = require('../ViroNode');*/
 import {
-    ViroMaterials,
-    ViroARPlane,
-    ViroQuad,
-    ViroNode,
+  ViroMaterials,
+  ViroARPlane,
+  ViroQuad,
+  ViroNode,
 } from 'react-viro';
-//var ViroMaterials = require('../Material/ViroMaterials');
-//var ViroARPlane = require('./ViroARPlane');
-//var ViroQuad = require('../ViroQuad');
-//var ViroNode = require('../ViroNode');
 
 var _maxPlanes = 15;
 var _planePrefix = "ViroARPlaneSelector_Plane_"
@@ -161,17 +162,9 @@ var ViroARPlaneSelectorCustom = createReactClass({
 });
 
 ViroMaterials.createMaterials({
-  ViroARPlaneSelector_Translucents: {
+  ViroARPlaneSelector_Translucent: {
     lightingModel: "Constant",
     diffuseColor: "#88888888"
-  },
-  ViroARPlaneSelector_Translucent: {
-    shininess: 2.0,
-    diffuseColor: "#ffffffff",
-    //lightingModel: "constant",
-    diffuseTexture: require("./res/targetBlanc.png"),
-    wrapS: "Clamp",
-    wrapT: "Clamp",
   },
 });
 

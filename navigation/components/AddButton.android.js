@@ -94,7 +94,7 @@ class AddButton extends Component {
 	}
 
 	componentDidMount = () => {
-		this.props.onRef(this);
+		//this.props.onRef(this);
 		////console.log(this.props.navigation.state.routes[this.props.navigation.state.index].routeName);
 		//this.handleAddButtonPress();
 		if (this.props.navigation.state.routes[this.props.navigation.state.index].routeName != "ArStackScreen") {
@@ -114,12 +114,12 @@ class AddButton extends Component {
 
 	};
 	componentDidUpdate = () => {
-		this.props.onRef(this);
+		//this.props.onRef(this);
 
 	};
 
 	componentWillUnmount() {
-		this.props.onRef(null);
+		//this.props.onRef(null);
 		this.handleAddButtonPressOpenClose();
 		// this.setState({isArScreen: false});
 	}

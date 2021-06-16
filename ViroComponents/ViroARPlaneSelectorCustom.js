@@ -14,14 +14,19 @@
 import { requireNativeComponent, View, StyleSheet, findNodeHandle } from 'react-native';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { checkMisnamedProps } from '../Utilities/ViroProps';
+//import { checkMisnamedProps } from '../Utilities/ViroProps';
 
 var createReactClass = require('create-react-class');
-
-var ViroMaterials = require('../Material/ViroMaterials');
-var ViroARPlane = require('./ViroARPlane');
-var ViroQuad = require('../ViroQuad');
-var ViroNode = require('../ViroNode');
+import {
+    ViroMaterials,
+    ViroARPlane,
+    ViroQuad,
+    ViroNode,
+} from 'react-viro';
+//var ViroMaterials = require('../Material/ViroMaterials');
+//var ViroARPlane = require('./ViroARPlane');
+//var ViroQuad = require('../ViroQuad');
+//var ViroNode = require('../ViroNode');
 
 var _maxPlanes = 15;
 var _planePrefix = "ViroARPlaneSelector_Plane_"
@@ -31,7 +36,7 @@ var _planePrefix = "ViroARPlaneSelector_Plane_"
  * of an AR plane. This currently only allows for 1 plane to be selected,
  * but could easily be modified to allow for more planes.
  */
-var ViroARPlaneSelector = createReactClass({
+var ViroARPlaneSelectorCustom = createReactClass({
   propTypes: {
     ...View.propTypes,
     maxPlanes: PropTypes.number,
@@ -156,10 +161,20 @@ var ViroARPlaneSelector = createReactClass({
 });
 
 ViroMaterials.createMaterials({
-  ViroARPlaneSelector_Translucent: {
+  ViroARPlaneSelector_Translucents: {
     lightingModel: "Constant",
     diffuseColor: "#88888888"
   },
+  ViroARPlaneSelector_Translucent: {
+    //shininess: 1.0,
+    //diffuseColor: "#ffffffff",
+    //lightingModel: "Constant",
+    //lightingModel: "Blinn",
+    //diffuseColor: "#88888888",
+    diffuseTexture: require("./res/tracking_1a.png"),
+    wrapS: "Clamp",
+    wrapT: "Clamp",
+  },
 });
 
-module.exports = ViroARPlaneSelector;
+module.exports = ViroARPlaneSelectorCustom;

@@ -20,16 +20,11 @@ import { center } from '../../navigation/components/constants';
 class Details extends Component {
 
   static navigationOptions = ({ navigation }) => ({
-    title: navigation.getParam('title', 'A Nested Details Screen').toUpperCase(),
+    //title: navigation.getParam('title', 'A Nested Details Screen').toUpperCase(),
+    headerTitle: navigation.getParam('title', 'A Nested Details Screen').toUpperCase(),
     headerLeft: <Icon name={'ios-arrow-back'} size={40} color={'#fff'}
       onPress={() => { navigation.goBack() }} style={{ width: 50, paddingLeft: 5 }} />,
-    headerStyle: {
-      backgroundColor: 'rgba(230, 0, 126, 1)',
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
+    headerRight: <View></View>
   });
   constructor(props) {
     super(props);
@@ -44,6 +39,9 @@ class Details extends Component {
 
   jsonEscape(str) {
     return str.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t");
+  }
+  jsonEscapeCr(str) {
+    return str.replace(/\__cr__/g, "\n");
   }
   render() {
     const { navigation } = this.props;
@@ -64,7 +62,7 @@ class Details extends Component {
         <Image style={styles.imageThumbnail} source={{ uri: data.markerUrl }} />
         {data.description
           && <View style={styles.TxtContainer}>
-            <Text style={styles.descriptionTitle}>Description:</Text><Text style={styles.description}>{data.description}</Text></View>
+            <Text style={styles.descriptionTitle}>Description:</Text><Text style={styles.description}>{this.jsonEscapeCr(data.description)}</Text></View>
         }
 
         {data.jsonRender && data.jsonRender != "" &&

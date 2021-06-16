@@ -61,6 +61,18 @@ export default class Update extends Component {
   componentDidMount() {
     CodePush.notifyApplicationReady();
 
+    /*const update = await CodePush.checkForUpdate();
+    console.log(update)
+            if (update) {
+              console.log(update)
+                //alert('update')
+                //this.sync();
+            }
+            else {
+                //alert('no update')
+
+                //this.getData();
+            }*/
     this.getUpdateMetadata();
     
   }
@@ -107,7 +119,9 @@ export default class Update extends Component {
   getUpdateMetadata() {
     CodePush.getUpdateMetadata(CodePush.UpdateState.RUNNING)
       .then((metadata) => {
-        this.setState({ progress: false, label: metadata.label, version: metadata.appVersion, description: metadata.description });
+        if(metadata) {
+          this.setState({ progress: false, label: metadata.label, version: metadata.appVersion, description: metadata.description });
+        }  
       }, (error) => {
         this.setState({ syncMessage: "Error: " + error, progress: false });
       });
@@ -137,8 +151,8 @@ export default class Update extends Component {
 
         <View style={styles.outer}>
         <View style={styles.topContainer}>
-            <Text style={styles.version}>Version:{this.state.version ? this.state.version + "." + this.state.label: "Version du Sore" }</Text>
-            <Text style={styles.version}>Description:{this.state.description ? this.state.description : "Version du Sore"}</Text>
+            <Text style={styles.version}>Version:{this.state.version ? this.state.version + "." + this.state.label: "Version du Store" }</Text>
+            <Text style={styles.version}>Description:{this.state.description ? this.state.description : "Version du Store"}</Text>
             <Text style={styles.messages}>{this.state.syncMessage || ""}</Text>
           </View>
           <View style={styles.middleContainer}>

@@ -26,14 +26,25 @@ const AfficheStackNavigator = createStackNavigator({
     Details: {
         screen: AfficheDetailsScreen,
         navigationOptions: {
-            headerTitle: 'Détails',
+            //headerTitle: 'Détails',
             headerStyle: {
                 backgroundColor: theme.PRIMARY_COLOR,
-                elevation: 0
+                elevation: 0,
+                // backgroundColor: 'yellow',
             },
             headerTintColor: theme.WHITE,
             headerTitleStyle: {
                 fontWeight: theme.FONT_WEIGHT_LIGHT,
+                alignSelf: 'center',
+                justifyContent: "center",
+                flex: 1,
+                textAlign: 'center'
+                /*alignSelf: 'center',
+                textAlign: "center",
+                justifyContent: 'center',
+                flex: 1,
+                fontWeight: 'bold',
+                textAlignVertical: 'center',marginLeft: 'auto', marginRight: 'auto'*/
             },
         },
     },
@@ -43,30 +54,30 @@ const AfficheStackNavigator = createStackNavigator({
             //header: null
         },
     },
-   /* Loading: {
-        screen: LoadingScreen,
-    }*/
+    /* Loading: {
+         screen: LoadingScreen,
+     }*/
 },
-{
-    cardStyle: {
-        //backgroundColor: 'rgba(0,0,0,0)',
-        opacity: 1,
-    },
-})
+    {
+        cardStyle: {
+            //backgroundColor: 'rgba(0,0,0,0)',
+            opacity: 1,
+        },
+    })
 AfficheStackNavigator.navigationOptions = ({ navigation }) => {
     // get the name of the route
     const { routeName } = navigation.state.routes[navigation.state.index];
-  
+
     if (routeName === 'Details' || routeName === 'DemoTemplate') {
-      tabBarVisible = false;
+        tabBarVisible = false;
     }
     else {
-      tabBarVisible = true;
+        tabBarVisible = true;
     }
     return {
-      tabBarVisible, // this now varies based on screen
-      //tabBarLabel: "Search", // this is the same for all screens
+        tabBarVisible, // this now varies based on screen
+        //tabBarLabel: "Search", // this is the same for all screens
     };
-  };
+};
 
 export default AfficheStackNavigator

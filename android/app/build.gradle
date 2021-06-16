@@ -106,8 +106,8 @@ android {
         applicationId "com.ice20"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3030
-        versionName "3.0.3"
+        versionCode 3040
+        versionName "3.0.4"
         multiDexEnabled true
         missingDimensionStrategy 'react-native-camera', 'general'
     }

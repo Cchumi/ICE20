@@ -53,6 +53,7 @@ import { withNavigation, ThemeColors, SafeAreaView } from 'react-navigation';
 import FAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Torch from 'react-native-torch';
+import { Overlay } from 'react-native-elements';
 
 import { addPortalWithIndex, removePortalWithUUID, addModelWithIndex, removeAll, removeModelWithUUID, toggleEffectSelection, changePortalLoadState, changePortalPhoto, changeModelLoadState, changeItemClickState, switchListMode, removeARObject, displayUIScreen } from '../../redux/actions';
 import * as UIConstants from '../../redux/UIConstants';
@@ -113,17 +114,19 @@ class ArScreen extends Component {
       hideBubbles: false,
       isActive: false,
       viroAppProps: {
-        data: this.props.navigation.state.params.data,//this.props.campagnes,
+        campagnes: this.props.navigation.state.params.campagnes,//this.props.campagnes,
         materials: this.props.navigation.state.params.materials,//this.props.materials,
         animations: this.props.navigation.state.params.animations,//this.props.animations,
         //data: [],
         //materials: [],
         // animations: [],
+        gotAdminRight: this.props.gotAdminRight,
         resetScene: false,
         displayObject: false,
         animationScanLine: true,
         yOffset: 0,
         _changeStateScanline: this._changeStateScanline,
+        _getChildFullscreen: this._getChildFullscreen,
         // _onLoadEnd: this._onLoadEnd.bind(this),
         //_onLoadStart: this._onLoadStart.bind(this),
         //_onTrackingInit:this._onTrackingInit.bind(this), 
@@ -316,7 +319,7 @@ class ArScreen extends Component {
   }
 
   componentDidUpdate = (prevProps) => {
-    console.log("update")
+    //console.log("update")
     //console.log(prevProps.navigation)
     //console.log(this.props.navigation)
     /* console.log(prevProps.navigation)
@@ -493,10 +496,18 @@ class ArScreen extends Component {
     return recordViews;
   }
 
+  _getChildFullscreen = (source) => {
+    console.log(source)
+    this.setState({ fullscreen: true, videoSource: source })
+    StatusBar.setHidden(true);
+    //this._exitViro();
+    //this.player.presentFullscreenPlayer()
+  }
   _renderVideo = () => {
 
     return (
-      <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center', zIndex: 999 }}>
+      /*<View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center', zIndex: 9999 }}>*/
+      <>
         <Video
           source={{
             uri: this.state.videoSource,
@@ -505,7 +516,7 @@ class ArScreen extends Component {
               'X-Custom-Header': 'some value'
             }
           }}
-          fullscreen={this.state.fullscreen}
+          //fullscreen={this.state.fullscreen}
           controls={true}
           rate={1.0}
           volume={1.0}
@@ -513,17 +524,25 @@ class ArScreen extends Component {
           resizeMode={"cover"}
           style={styles.backgroundVideo}
           //fullscreenOrientation={'landscape'} 
-          ref={r => this.player = r}
+          //ref={(ref) => this.player = ref}
+          ref={(ref) => { this.player = ref }}
         />
         <TouchableHighlight style={styles.videoclose}
-          onPress={this.onEndVideo}
+          onPress={this.onCloseVideo}
           underlayColor={'#00000000'} >
-          <Icon name={"closecircleo"} type={'antdesign'} size={30} />
+          <Icon name={"md-close-circle"} size={30} color={'white'} />
           {/*<Image style={styles.videocloseimage} source={require("./js/res/btn_close_video.png")} />*/}
         </TouchableHighlight>
-      </View>
+      </>
+      /*</View>*/
 
     );
+  }
+
+  onCloseVideo = () => {
+    this.setState({ fullscreen: false, videoSource: null })
+    StatusBar.setHidden(false);
+    //alert('buffer')
   }
   onBuffer = () => {
     //alert('buffer')
@@ -682,7 +701,7 @@ class ArScreen extends Component {
       <View style={styles.flex}>
 
         <StatusBar barStyle="light-content" />
-        {!this.state.viroAppProps.data && !this.state.trackingInitialized ? this._renderActivityLoader() :
+        {!this.state.viroAppProps.campagnes && !this.state.trackingInitialized ? this._renderActivityLoader() :
 
           <View style={styles.flex}>
             {this.state.trackingInitialized ?
@@ -696,6 +715,7 @@ class ArScreen extends Component {
                 videoQuality="High"
                 //hdrEnabled={false}
                 ref={this._setARNavigatorRef}
+                //ref={(ref) => { this._setARNavigatorRef = ref }}
                 //numberOfTrackedImages={this.props.products.config.numberOfTrackedImages}
                 //autofocus={this.props.products.config.autofocus}
                 //videoQuality={this.props.products.config.videoQuality}
@@ -715,7 +735,12 @@ class ArScreen extends Component {
                 }}
                 //viroAppProps={{ ...this.state.viroAppProps, data: this.props.campagnes }}
                 viroAppProps={this.state.viroAppProps}
-              /> : <Text>Null</Text>}
+              /> :
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'column', paddingVertical: 15 }}>
+                <ActivityIndicator />
+                <Text style={styles.textmessage}>Chargement en cours...</Text>
+              </View>
+            }
             {/* AR Initialization animation shown to the user for moving device around to get AR Tracking working*/}
 
             {this.state.animationScanLine && <ScanLine />
@@ -725,7 +750,14 @@ class ArScreen extends Component {
             {/*this._renderShareScreen()*/}
             {/* Buttons and their behavior for recording videos and screenshots at the bottom of the screen */}
             {this._renderRecord()}
-            {this.state.fullscreen ? this._renderVideo() : null}
+            <Overlay isVisible={this.state.fullscreen} /*fullScreen={true}*/ containerStyle={{ backgroundColor: 'red' }} /*containerStyle={{
+              width: Dimensions.get('window').width,
+              height: Dimensions.get('window').height-30
+            }}*/>
+              {this._renderVideo()}
+            </Overlay>
+            {//this.state.fullscreen ? this._renderVideo() : null
+            }
             {/*this.state.fullscreen ? this._renderVideo() : null*/}
             {this._renderRecord()}
 
@@ -748,7 +780,7 @@ const styles = StyleSheet.create({
     flex: 1,
     //justifyContent: 'center',
     //alignItems: 'center',
-    backgroundColor: '#000000',
+    backgroundColor: 'black',
   },
   arView: {
     flex: 1,
@@ -796,6 +828,8 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
+    // width: Dimensions.get('window').width,
+    //height: Dimensions.get('window').height
   },
   backgroundImage: {
     position: 'absolute',
@@ -816,22 +850,18 @@ const styles = StyleSheet.create({
     width: 35,
   },
   videoclose: {
-    height: 30,
-    width: 30,
-    paddingTop: 20,
-    paddingBottom: 20,
-    marginTop: 10,
-    marginBottom: 10,
-    backgroundColor: '#00000000',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#ffffff00',
+    position: 'absolute', flex: 1, flexDirection: 'row', right: 5, top: 30, justifyContent: 'flex-end', alignItems: 'flex-end', height: 30, width: 30
   },
   videocloseimage: {
     height: 30,
     width: 30,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  textmessage: {
+    color: '#fff',
+    textAlign: 'center',
+    //width: '100%',
   },
 });
 
@@ -844,6 +874,7 @@ const mapStateToProps = (state, store) => {
     campagnes: state.firestore.ordered.campagnes,
     animations: state.firestore.ordered.animations,
     materials: state.firestore.ordered.materials,
+    gotAdminRight: state.ui.gotAdminRight
     // campagnes: state.firestore.ordered.campagnes,
     //materials: state.firestore.ordered.materials,
     //animations: state.firestore.ordered.animations,

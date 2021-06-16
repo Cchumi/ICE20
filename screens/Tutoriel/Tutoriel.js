@@ -66,7 +66,7 @@ class Tutoriel extends Component {
           </View>
         </View>
         {/* Second screen */}
-        <View style={[styles.slide, { backgroundColor: 'rgba(230, 0, 126, 1)' }]}>
+        <View style={[styles.slide, { backgroundColor: 'rgba(226, 0, 122, 1)' }]}>
           {/*<Icon name="ios-beer" {...iconStyles} />*/}
           <View style={styles.topContainer}>
             <Image source = {require('./assets/2.png')} style={styles.images} resizeMode="contain" />
@@ -77,7 +77,7 @@ class Tutoriel extends Component {
           </View>
         </View>
         {/* Third screen */}
-        <View style={[styles.slide, { backgroundColor: 'rgba(230, 0, 126, 1)' }]}>
+        <View style={[styles.slide, { backgroundColor: 'rgba(226, 0, 122, 1)' }]}>
          {/*<Icon name="ios-beer" {...iconStyles} />*/}
          <View style={styles.topContainer}>
             <Image source = {require('./assets/3.png')} style={styles.images} resizeMode="contain" />
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',   // Center vertically
     alignItems: 'center',       // Center horizontally
     /*flexDirection: 'column',*/
-    backgroundColor: 'rgba(230, 0, 126, 1)',
+    backgroundColor: 'rgba(226, 0, 122, 1)',
   },
   topContainer: {
     flex: 3,
